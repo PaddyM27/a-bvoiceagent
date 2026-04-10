@@ -548,18 +548,24 @@
   </footer>
 
   <!-- VAPI SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.3.1/dist/vapi.umd.js"></script>
   <script>
-    var vapiInstance = null;
-    var callActive = false;
+    (function() {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.umd.js';
+      script.async = true;
+      script.onload = function() {
+        console.log('Vapi SDK loaded, version check:', typeof Vapi);
+      };
+      script.onerror = function() {
+        document.getElementById('statusText').textContent = 'Failed to load voice SDK — please refresh';
+      };
+      document.head.appendChild(script);
+    })();
 
+    var vapi = null;
+    var callActive = false;
     var assistantId = "03e107c9-0716-4e5d-853d-cae6acb0f3e5";
     var publicKey = "77bb7d38-11a3-469c-8fc6-047bdc02ee40";
-
-    function initVapi() {
-      if (vapiInstance) return;
-      vapiInstance = new Vapi(publicKey);
-    }
 
     function setStatus(text, active) {
       document.getElementById('statusText').textContent = text;
@@ -567,16 +573,26 @@
       dot.className = 'status-dot' + (active ? ' active' : '');
     }
 
+    function resetBtn() {
+      var btn = document.getElementById('callBtn');
+      btn.textContent = 'Start Free Consultation Call';
+      btn.className = 'vapi-btn';
+      btn.disabled = false;
+      callActive = false;
+    }
+
     function handleCall() {
       var btn = document.getElementById('callBtn');
 
       if (callActive) {
-        // End call
-        if (vapiInstance) vapiInstance.stop();
-        btn.textContent = 'Start Free Consultation Call';
-        btn.className = 'vapi-btn';
-        setStatus('Call ended — we\'ll be in touch shortly', false);
-        callActive = false;
+        if (vapi) vapi.stop();
+        resetBtn();
+        setStatus("Call ended — we’ll be in touch shortly", false);
+        return;
+      }
+
+      if (typeof Vapi === 'undefined') {
+        setStatus('Voice SDK still loading — please try again in a moment', false);
         return;
       }
 
@@ -584,42 +600,43 @@
       btn.disabled = true;
       setStatus('Connecting to Chris…', true);
 
-      initVapi();
+      try {
+        vapi = new Vapi(publicKey);
 
-      vapiInstance.on('call-start', function() {
-        btn.textContent = 'End Call';
-        btn.className = 'vapi-btn listening';
-        btn.disabled = false;
-        setStatus('Connected — Chris is listening', true);
-        callActive = true;
-      });
+        vapi.on('call-start', function() {
+          btn.textContent = 'End Call';
+          btn.className = 'vapi-btn listening';
+          btn.disabled = false;
+          setStatus('Connected — Chris is listening', true);
+          callActive = true;
+        });
 
-      vapiInstance.on('call-end', function() {
-        btn.textContent = 'Start Free Consultation Call';
-        btn.className = 'vapi-btn';
-        btn.disabled = false;
-        setStatus('Call ended — we\'ll be in touch shortly', false);
-        callActive = false;
-      });
+        vapi.on('call-end', function() {
+          resetBtn();
+          setStatus("Call ended — we’ll be in touch shortly", false);
+        });
 
-      vapiInstance.on('error', function(e) {
-        console.error('Vapi error:', e);
-        btn.textContent = 'Start Free Consultation Call';
-        btn.className = 'vapi-btn';
-        btn.disabled = false;
-        setStatus('Something went wrong — please try again', false);
-        callActive = false;
-      });
+        vapi.on('error', function(e) {
+          console.error('Vapi error:', e);
+          resetBtn();
+          setStatus('Something went wrong — please try again', false);
+        });
 
-      vapiInstance.on('speech-start', function() {
-        setStatus('Chris is speaking…', true);
-      });
+        vapi.on('speech-start', function() {
+          setStatus('Chris is speaking…', true);
+        });
 
-      vapiInstance.on('speech-end', function() {
-        setStatus('Listening…', true);
-      });
+        vapi.on('speech-end', function() {
+          setStatus('Listening…', true);
+        });
 
-      vapiInstance.start(assistantId);
+        vapi.start(assistantId);
+
+      } catch(err) {
+        console.error('Vapi init failed:', err);
+        resetBtn();
+        setStatus('Could not start call — please refresh and try again', false);
+      }
     }
   </script>
 
