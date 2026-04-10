@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Free Consultation — A&B Home Perfection Renovations</title>
+  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.umd.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -547,21 +548,8 @@
     </div>
   </footer>
 
-  <!-- VAPI SDK -->
+  <!-- VAPI SDK INIT -->
   <script>
-    (function() {
-      var script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.umd.js';
-      script.async = true;
-      script.onload = function() {
-        console.log('Vapi SDK loaded, version check:', typeof Vapi);
-      };
-      script.onerror = function() {
-        document.getElementById('statusText').textContent = 'Failed to load voice SDK — please refresh';
-      };
-      document.head.appendChild(script);
-    })();
-
     var vapi = null;
     var callActive = false;
     var assistantId = "03e107c9-0716-4e5d-853d-cae6acb0f3e5";
@@ -591,8 +579,10 @@
         return;
       }
 
+      console.log('Vapi type:', typeof Vapi);
+
       if (typeof Vapi === 'undefined') {
-        setStatus('Voice SDK still loading — please try again in a moment', false);
+        setStatus('Voice SDK not loaded — please refresh the page', false);
         return;
       }
 
@@ -601,43 +591,55 @@
       setStatus('Connecting to Chris…', true);
 
       try {
-        vapi = new Vapi(publicKey);
+        if (!vapi) {
+          vapi = new Vapi(publicKey);
 
-        vapi.on('call-start', function() {
-          btn.textContent = 'End Call';
-          btn.className = 'vapi-btn listening';
-          btn.disabled = false;
-          setStatus('Connected — Chris is listening', true);
-          callActive = true;
-        });
+          vapi.on('call-start', function() {
+            btn.textContent = 'End Call';
+            btn.className = 'vapi-btn listening';
+            btn.disabled = false;
+            setStatus('Connected — Chris is listening', true);
+            callActive = true;
+          });
 
-        vapi.on('call-end', function() {
-          resetBtn();
-          setStatus("Call ended — we’ll be in touch shortly", false);
-        });
+          vapi.on('call-end', function() {
+            resetBtn();
+            setStatus("Call ended — we’ll be in touch shortly", false);
+          });
 
-        vapi.on('error', function(e) {
-          console.error('Vapi error:', e);
-          resetBtn();
-          setStatus('Something went wrong — please try again', false);
-        });
+          vapi.on('error', function(e) {
+            console.error('Vapi error:', e);
+            resetBtn();
+            setStatus('Error: ' + (e.message || JSON.stringify(e)), false);
+          });
 
-        vapi.on('speech-start', function() {
-          setStatus('Chris is speaking…', true);
-        });
+          vapi.on('speech-start', function() {
+            setStatus('Chris is speaking…', true);
+          });
 
-        vapi.on('speech-end', function() {
-          setStatus('Listening…', true);
-        });
+          vapi.on('speech-end', function() {
+            setStatus('Listening…', true);
+          });
+        }
 
         vapi.start(assistantId);
 
       } catch(err) {
         console.error('Vapi init failed:', err);
         resetBtn();
-        setStatus('Could not start call — please refresh and try again', false);
+        setStatus('Error: ' + err.message, false);
       }
     }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof Vapi !== 'undefined') {
+        console.log('Vapi SDK ready on load');
+        setStatus('Ready — click to speak with Chris', false);
+      } else {
+        console.warn('Vapi SDK not found after page load');
+        setStatus('Voice SDK unavailable — please refresh', false);
+      }
+    });
   </script>
 
 </body>
