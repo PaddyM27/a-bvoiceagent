@@ -592,7 +592,8 @@
 
       try {
         if (!vapi) {
-          vapi = new Vapi(publicKey);
+          var VapiClass = (typeof Vapi === "function") ? Vapi : (Vapi.default || Vapi);
+          vapi = new VapiClass(publicKey);
 
           vapi.on('call-start', function() {
             btn.textContent = 'End Call';
