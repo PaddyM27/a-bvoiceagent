@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Free Consultation — A&B Home Perfection Renovations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f9f7f4;
+      --cream: #f2ede6;
+      --gold: #c9a96e;
+      --gold-light: #e8d5b0;
+      --grey: #6b6560;
+      --border: rgba(201,169,110,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+
+    .logo-text span {
+      color: var(--gold);
+    }
+
+    .header-tag {
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: calc(100vh - 85px);
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px 80px 64px;
+      border-right: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 4vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.7;
+      margin-top: 24px;
+      max-width: 420px;
+    }
+
+    /* ── STATS ROW ── */
+    .stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {}
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 4px;
+    }
+
+    /* ── RIGHT PANEL — CALL CTA ── */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 56px;
+      background: linear-gradient(160deg, rgba(201,169,110,0.04) 0%, rgba(10,10,10,0) 60%);
+      position: relative;
+    }
+
+    .call-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(249,247,244,0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 48px 40px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .call-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      animation: pulse-ring 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.4); }
+      50% { box-shadow: 0 0 0 16px rgba(201,169,110,0); }
+    }
+
+    .call-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--black);
+    }
+
+    .call-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .call-card p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    /* ── VAPI BUTTON ── */
+    .vapi-btn {
+      display: block;
+      width: 100%;
+      padding: 18px 32px;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vapi-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.12);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .vapi-btn:hover::after { opacity: 1; }
+    .vapi-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,169,110,0.3); }
+    .vapi-btn:active { transform: translateY(0); }
+
+    .vapi-btn.listening {
+      background: #1a472a;
+      color: #90ee90;
+      animation: listening-pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes listening-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(144,238,144,0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(144,238,144,0); }
+    }
+
+    .vapi-btn.ending {
+      background: #4a1010;
+      color: #ff9090;
+    }
+
+    .call-note {
+      margin-top: 16px;
+      font-size: 0.72rem;
+      color: var(--grey);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── STATUS INDICATOR ── */
+    .status-bar {
+      margin-top: 24px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 2px;
+      font-size: 0.78rem;
+      color: var(--grey);
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--grey);
+      flex-shrink: 0;
+    }
+
+    .status-dot.active {
+      background: #4ade80;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* ── TRUST BADGES ── */
+    .trust-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--grey);
+    }
+
+    .trust-item svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── SERVICES STRIP ── */
+    .services-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+    }
+
+    .service-item {
+      padding: 36px 32px;
+      border-right: 1px solid var(--border);
+    }
+
+    .service-item:last-child { border-right: none; }
+
+    .service-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .service-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .service-price {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--grey);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-left {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--grey);
+      letter-spacing: 0.04em;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-link {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--grey);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      header { padding: 20px 24px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 56px 28px 48px; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { padding: 48px 24px 56px; }
+      .call-card { padding: 36px 28px; }
+      .services-strip { grid-template-columns: repeat(2, 1fr); }
+      .service-item:nth-child(2) { border-right: none; }
+      footer { flex-direction: column; gap: 16px; padding: 24px; text-align: center; }
+      .stats { gap: 28px; }
+    }
+
+    /* ── FADE IN ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.22s; }
+    .fade-up:nth-child(3) { animation-delay: 0.34s; }
+    .fade-up:nth-child(4) { animation-delay: 0.46s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-text">A<span>&</span>B Home Perfection</div>
+    <div class="header-tag">Dublin's Turn-Key Renovation Specialists</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="eyebrow fade-up">Free Consultation</div>
+      <h1 class="fade-up">From First Sketch<br>to <em>Final Lick</em><br>of Paint.</h1>
+      <p class="hero-sub fade-up">One price. One team. No contractor juggling. Attic conversions, kitchens, extensions and full renovations — all finished to the last detail.</p>
+
+      <div class="stats fade-up">
+        <div class="stat-item">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Dublin Homes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Fixed</div>
+          <div class="stat-label">Price Guarantee</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">One</div>
+          <div class="stat-label">Point of Contact</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — CALL PANEL -->
+    <div class="hero-right">
+      <div class="call-card">
+        <div class="call-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+        </div>
+
+        <h2>Speak With Chris</h2>
+        <p>Our virtual consultant will walk you through the process and book a free in-person visit from Artiom — no commitment required.</p>
+
+        <button class="vapi-btn" id="callBtn" onclick="handleCall()">
+          Start Free Consultation Call
+        </button>
+
+        <div class="call-note">Takes 3–5 minutes · Completely free</div>
+
+        <div class="status-bar" id="statusBar">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Ready when you are</span>
+        </div>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Fixed price — the number you sign is the number you pay
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          In-person visit to your home, free of charge
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Fully insured · Certificates of compliance included
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SERVICES STRIP -->
+  <div class="services-strip">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-name">Attic Conversions</div>
+      <div class="service-price">From €32,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-name">Kitchen Renovations</div>
+      <div class="service-price">From €15,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-name">Home Extensions</div>
+      <div class="service-price">From €48,000</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div class="service-name">Full Renovations</div>
+      <div class="service-price">Quoted at consultation</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">© 2026 A&B Home Perfection Renovations · Dublin, Ireland</div>
+    <div class="footer-right">
+      <a href="https://www.homeperfectionrenovation.ie" target="_blank" class="footer-link">Website</a>
+      <a href="https://wa.me/353873930239" target="_blank" class="footer-link">WhatsApp</a>
+      <a href="mailto:hello@abperfection.ie" class="footer-link">Email</a>
+    </div>
+  </footer>
+
+  <!-- VAPI SDK -->
+  <script>
+    var vapiInstance = null;
+    var callActive = false;
+
+    var assistantId = "03e107c9-0716-4e5d-853d-cae6acb0f3e5";
+    var publicKey = "YOUR_VAPI_PUBLIC_KEY"; // ← Replace with your Vapi public key
+
+    function loadVapi(callback) {
+      if (window.Vapi) { callback(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js';
+      s.onload = callback;
+      document.head.appendChild(s);
+    }
+
+    function setStatus(text, active) {
+      document.getElementById('statusText').textContent = text;
+      var dot = document.getElementById('statusDot');
+      dot.className = 'status-dot' + (active ? ' active' : '');
+    }
+
+    function handleCall() {
+      var btn = document.getElementById('callBtn');
+
+      if (callActive) {
+        // End call
+        if (vapiInstance) vapiInstance.stop();
+        btn.textContent = 'Start Free Consultation Call';
+        btn.className = 'vapi-btn';
+        setStatus('Call ended — we\'ll be in touch shortly', false);
+        callActive = false;
+        return;
+      }
+
+      btn.textContent = 'Connecting…';
+      btn.disabled = true;
+      setStatus('Connecting to Chris…', true);
+
+      loadVapi(function() {
+        if (!vapiInstance) {
+          vapiInstance = new window.Vapi(publicKey);
+
+          vapiInstance.on('call-start', function() {
+            btn.textContent = 'End Call';
+            btn.className = 'vapi-btn listening';
+            btn.disabled = false;
+            setStatus('Connected — Chris is listening', true);
+            callActive = true;
+          });
+
+          vapiInstance.on('call-end', function() {
+            btn.textContent = 'Start Free Consultation Call';
+            btn.className = 'vapi-btn';
+            btn.disabled = false;
+            setStatus('Call ended — we\'ll be in touch shortly', false);
+            callActive = false;
+          });
+
+          vapiInstance.on('error', function(e) {
+            console.error('Vapi error:', e);
+            btn.textContent = 'Start Free Consultation Call';
+            btn.className = 'vapi-btn';
+            btn.disabled = false;
+            setStatus('Something went wrong — please try again', false);
+            callActive = false;
+          });
+
+          vapiInstance.on('speech-start', function() {
+            setStatus('Chris is speaking…', true);
+          });
+
+          vapiInstance.on('speech-end', function() {
+            setStatus('Listening…', true);
+          });
+        }
+
+        vapiInstance.start(assistantId);
+      });
+    }
+  </script>
+
+</body>
+</html>
